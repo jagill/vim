@@ -2,5 +2,9 @@
 *~
 .py[co]
 .DS_Store
+Icon?
 bundle/
 .netrwhist
+
+#autoload/pathogen.vim is loaded by update_plugins.py
+autoload/pathogen.vim
