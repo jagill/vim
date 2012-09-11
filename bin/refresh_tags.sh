@@ -26,6 +26,8 @@ sed -E '/(^!)|(F$)/!d' $TAG_FILE > $FILE_NAME_FILE
 echo "Made filename tag file."
 ack -f > $CSCOPE_FILES_FILE
 echo "Made cscope file file"
-cscope -b -i $CSCOPE_FILES_FILE -f $CSCOPE_OUT_FILE 
-#echo "Made cscope database"
+if [ `which cscope` ] ; then
+    cscope -b -i $CSCOPE_FILES_FILE -f $CSCOPE_OUT_FILE 
+    #echo "Made cscope database"
+fi
 cd $HERE
