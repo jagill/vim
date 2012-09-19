@@ -38,7 +38,7 @@ set softtabstop=4	" make the tab key move 4 spaces
 set tabstop=4	    " tabs show as 4 spaces 
 set title           " Show title of file in terminal mode
 set shortmess=I     " Suppress many of the "Press RETURN to continue"
-" set visualbell    " Don't audibly beep
+set visualbell      " Don't audibly beep
 set wildmenu        " Show all possible word completions
 " set wildmode=list:longest     " Only complete up to points of ambiguity
 set wildmode=list:longest,full  " You can also toggle through the matches by tab
