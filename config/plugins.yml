@@ -238,6 +238,20 @@
   plugin_type: plugin
   file_type: vim
 
+#- name: mustache
+  #repo_type: git
+  #repo: https://github.com/juvenn/mustache.vim.git
+  #description: 'Syntax highlighting and indenting for mustache/handlebars.'
+  #plugin_type: plugin
+  #file_type: vim
+
+- name: handlebars
+  repo_type: git
+  repo: https://github.com/nono/vim-handlebars.git
+  description: 'Syntax highlighting and indenting for mustache/handlebars.'
+  plugin_type: plugin
+  file_type: vim
+
 #- name: checksyntax
   #urls:
     #- http://www.vim.org/scripts/script.php?script_id=1431
