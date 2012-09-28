@@ -193,21 +193,29 @@ def main(options, args):
     include_pathogen = options.pathogen
 
     if args:
+        possible_plugin_names = plugins_map.keys();
+        if options.delete:
+            #Allow you to delete existent directories.
+            possible_plugin_names.extend(os.listdir(bundle_dir))
+            possible_plugin_names = list(set(possible_plugin_names))
         if options.match_like:
             matching_plugin_names = []
             for arg in args:
-                for name in plugins_map:
+                for name in possible_plugin_names:
                     if arg in name:
                         matching_plugin_names.append(name)
                 if arg in 'pathogen':
                     include_pathogen = True;
+            #remove duplicates
+            matching_plugin_names = list(set(matching_plugin_names))
         else:
-            matching_plugin_names = [name for name in plugins_map if name in args]
+            matching_plugin_names = [name for name in possible_plugin_names if name in args]
             if 'pathogen' in args:
                 include_pathogen = True
-        #remove duplicates
-        matching_plugin_names = list(set(matching_plugin_names))
     else:
+        if options.delete:
+            print "You must supply at least one argument for the --delete mode."
+            return 1
         matching_plugin_names = plugins_map.keys()
     matching_plugin_names.sort()
     logging.debug("Selecting plugins %s" % matching_plugin_names)
@@ -231,11 +239,12 @@ def main(options, args):
             print '\t' + plugin['description']
         return 0
 
-    # Delete them
+    # Delete them.  Note that we don't just want to restrict to listed plugins (to allow deleting of commented-out plugins)
     if options.delete:
         if include_pathogen:
             pathogen_dir = os.path.join(vim_dir, 'autoload/pathogen.vim')
             shutil.rmtree(pathogen_dir)
+
         for plugin_name in matching_plugin_names:
             plugin_dir = os.path.join(bundle_dir, plugin_name)
             shutil.rmtree(plugin_dir)
@@ -284,7 +293,7 @@ if __name__=='__main__':
     parser.add_option('-P', '--pathogen', dest='pathogen', action='store_true', default=False, help='Refresh pathogen.  Overriden by the use of pathogen in arguments.  Default=%default')
     parser.add_option('-c', '--clean', dest='clean', action='store_true', default=False, help='Delete existing directories before upgrading it.')
     parser.add_option('-C', '--full-clean', dest='full_clean', action='store_true', default=False, help='Delete ALL existing directories before upgrading. Overridden by --list or --delete.')
-    parser.add_option('-D', '--delete', dest='delete', action='store_true', default=False, help='Delete listed plugins instead of upgrading them.')
+    parser.add_option('-D', '--delete', dest='delete', action='store_true', default=False, help='Delete listed plugins instead of upgrading them.  Note that this also accepts names of directories in bundle, even if they aren\'t a declared plugin.')
     parser.add_option('-k', '--kill-repo', dest='kill_repo', action='store_true', default=False, help='Delete cloned repositories after cloning/updating.  May require a clean before next update.')
     parser.add_option('-l', '--list', dest='list_plugins', action='store_true', default=False, help='List plugin names.  If arguments are supplied, only list plugins within that list. --pathogen adds "pathogen" to list.')
     parser.add_option('-L', '--list-descriptions', dest='list_descriptions', action='store_true', default=False, help='List plugin names with descriptions.  If arguments are supplied, only list plugins within that list. --pathogen adds "pathogen" to list. Overrides --list.')
