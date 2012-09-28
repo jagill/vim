@@ -160,6 +160,7 @@ def install_plugin(plugin, plugin_dir, options={}):
 
 
 def main(options, args):
+    #Set up logging level.
     options.verbose = options.verbose or options.debug
     options.clean = options.clean or options.full_clean
     if options.debug:
@@ -167,6 +168,7 @@ def main(options, args):
     elif options.verbose:
         logging.basicConfig(level=logging.INFO)
 
+    #Set up directories and files
     logging.debug("Running script with args %s" % args)
     logging.debug("Script file is %s, which has abspath %s" % (__file__, os.path.abspath(__file__)))
 
@@ -178,31 +180,70 @@ def main(options, args):
     options.plugins_file = options.plugins_file or os.path.join(vim_dir, 'config', 'plugins.yml')
     logging.debug("Using plugins file %s" % options.plugins_file)
 
-    if options.delete:
-        for plugin_name in args:
-            if plugin_name == 'pathogen':
-                pathogen_dir = os.path.join(vim_dir, 'autoload')
-                shutil.rmtree(pathogen_dir)
-            else:
-                plugin_dir = os.path.join(bundle_dir, plugin_name)
-                shutil.rmtree(plugin_dir)
-            logging.info("Deleted %s" % plugin_name)
-        return 0
-
-    if ('pathogen' in args) or options.pathogen:
-        refresh_pathogen(vim_dir, options)
-
+    #Find plugins matched by arguments.  No arguments means all plugins. Pathogen is kindof a plugin.
     plugins = []
     with open(options.plugins_file, 'r') as plugins_file:
         plugins = yaml.load(plugins_file)
-            
     if not is_plugin_list_ok(plugins):
         logging.info("Plugin file did not validate.")
         return 1
+    plugins_map = { plugin['name']:plugin for plugin in plugins }
+
+    matching_plugin_names = None
+    include_pathogen = options.pathogen
 
     if args:
-        plugins = [plugin for plugin in plugins if plugin['name'] in args]
-        logging.debug("Will update plugins %s" % [plugin['name'] for plugin in plugins])
+        if options.match_like:
+            matching_plugin_names = []
+            for arg in args:
+                for name in plugins_map:
+                    if arg in name:
+                        matching_plugin_names.append(name)
+                if arg in 'pathogen':
+                    include_pathogen = True;
+        else:
+            matching_plugin_names = [name for name in plugins_map if name in args]
+            if 'pathogen' in args:
+                include_pathogen = True
+        #remove duplicates
+        matching_plugin_names = list(set(matching_plugin_names))
+    else:
+        matching_plugin_names = plugins_map.keys()
+    matching_plugin_names.sort()
+    logging.debug("Selecting plugins %s" % matching_plugin_names)
+    if include_pathogen:
+        logging.info("Including pathogen.")
+
+    # Just list and exit
+    if options.list_plugins:
+        if include_pathogen:
+            print 'pathogen'
+        print "\n".join(matching_plugin_names)
+        return 0
+
+    if options.list_descriptions:
+        if include_pathogen:
+            print 'pathogen'
+            print '\t The script that started them all...'
+        for name in matching_plugin_names:
+            plugin = plugins_map[name]
+            print plugin['name']
+            print '\t' + plugin['description']
+        return 0
+
+    # Delete them
+    if options.delete:
+        if include_pathogen:
+            pathogen_dir = os.path.join(vim_dir, 'autoload/pathogen.vim')
+            shutil.rmtree(pathogen_dir)
+        for plugin_name in matching_plugin_names:
+            plugin_dir = os.path.join(bundle_dir, plugin_name)
+            shutil.rmtree(plugin_dir)
+            logging.info("Deleted %s" % plugin_name)
+        return 0
+
+    if include_pathogen:
+        refresh_pathogen(vim_dir, options)
 
     if options.full_clean:
         #Setup a clean bundle dir
@@ -216,7 +257,8 @@ def main(options, args):
     if not os.path.exists(bundle_dir):
         os.mkdir(bundle_dir)
 
-    for plugin in plugins:
+    for plugin_name in matching_plugin_names:
+        plugin = plugins_map[plugin_name]
         try:
             plugin_dir = os.path.join(bundle_dir, plugin['name'])
             if options.clean:
@@ -241,9 +283,12 @@ if __name__=='__main__':
     parser.add_option('-d', '--debug', dest='debug', action='store_true', default=False, help='Print even more output.  Can be quite noisy.  Default=%default')
     parser.add_option('-P', '--pathogen', dest='pathogen', action='store_true', default=False, help='Refresh pathogen.  Overriden by the use of pathogen in arguments.  Default=%default')
     parser.add_option('-c', '--clean', dest='clean', action='store_true', default=False, help='Delete existing directories before upgrading it.')
-    parser.add_option('-C', '--full-clean', dest='full_clean', action='store_true', default=False, help='Delete ALL existing directories before upgrading.')
+    parser.add_option('-C', '--full-clean', dest='full_clean', action='store_true', default=False, help='Delete ALL existing directories before upgrading. Overridden by --list or --delete.')
     parser.add_option('-D', '--delete', dest='delete', action='store_true', default=False, help='Delete listed plugins instead of upgrading them.')
     parser.add_option('-k', '--kill-repo', dest='kill_repo', action='store_true', default=False, help='Delete cloned repositories after cloning/updating.  May require a clean before next update.')
+    parser.add_option('-l', '--list', dest='list_plugins', action='store_true', default=False, help='List plugin names.  If arguments are supplied, only list plugins within that list. --pathogen adds "pathogen" to list.')
+    parser.add_option('-L', '--list-descriptions', dest='list_descriptions', action='store_true', default=False, help='List plugin names with descriptions.  If arguments are supplied, only list plugins within that list. --pathogen adds "pathogen" to list. Overrides --list.')
+    parser.add_option('-m', '--match-like', dest='match_like', action='store_true', default=False, help='Match plugin names containing one of the argument strings (instead of being the entire plugin string).')
 
     (options, args) = parser.parse_args()
 
