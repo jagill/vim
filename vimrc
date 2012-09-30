@@ -15,7 +15,7 @@ filetype plugin indent on
 " 2. Set up Cscope in a helpful way
 " 3. Fix neocomplcache issues
 " 4. Make "ge" equiv in camelcasemotion
-" 5. Fix fn-Opt-Delete
+
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " settings
 """""""""""""""""""""""""""""""""""""""""""""""""""
@@ -115,6 +115,8 @@ noremap  ZZ :wqa<CR>
 map <Leader>v :sp $HOME/.vimrc<CR>
 " Reload .vimrc
 map <silent> <Leader>V :source $HOME/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+
+"This fails horrible if you aren't on a word.
 map <F1> :grep <cword><CR>
 
 " Copy current register into clipboard in mac
@@ -213,6 +215,10 @@ if has("macunix") && has("gui_running")
   map! <C-BS>         <C-o>d<C-Left>
   map  <C-Del>        d<C-Right>
   map! <C-Del>        <C-o>d<C-Right>
+  map  <M-BS>         d<M-Left>
+  map! <M-BS>         <C-o>d<M-Left>
+  map  <M-Del>        d<M-Right>
+  map! <M-Del>        <C-o>d<M-Right>
   map  <D-BS>         d<D-Left>
   map! <D-BS>         <C-o>d<D-Left>
   map  <D-Del>        d<D-Right>
@@ -222,7 +228,6 @@ if has("macunix") && has("gui_running")
   map  <M-S-BS>       diW
   map! <M-S-BS>       <C-o>diW
 endif
-  
 
 " Normal OSX
 " S-UP,DOWN: Highlight up,down
