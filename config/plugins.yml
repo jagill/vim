@@ -121,6 +121,13 @@
   #vim_org_id: 7671
   file_type: zip
 
+# This keeps crashing with a SEGV.  I've tried recompiling it with the system ruby, but no luck.
+#- name: commandT
+#  description: "TextMate's Command-T file find for vim."
+#  repo_type: git
+#  repo: git://github.com/wincent/Command-T.git
+#  plugin_type: plugin
+
 - name: matchit
   urls:
     - http://www.vim.org/scripts/script.php?script_id=39
@@ -322,6 +329,24 @@
   repo_type: git
   repo: git://github.com/msanders/cocoa.vim.git
   description: 'Plugin for Cocoa/Objective-C development'
+  plugin_type: plugin
+
+- name: coffeeScript
+  repo_type: git
+  repo: git://github.com/kchmck/vim-coffee-script.git
+  description: 'CoffeeScript support for vim'
+  plugin_type: plugin
+
+- name: jade
+  description: Vim Jade template engine syntax highlighting and indention
+  repo_type: git
+  repo: git://github.com/digitaltoad/vim-jade.git
+  plugin_type: plugin
+
+- name: json
+  description: A syntax highlighting file for JSON
+  repo_type: git
+  repo: git://github.com/vim-scripts/JSON.vim.git
   plugin_type: plugin
 
 - name: closetag
