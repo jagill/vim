@@ -255,14 +255,14 @@ endif
 let g:miniBufExplMapCTabSwitchBufs = 1 " control-tab and control-shift-tab to switch buffers 
 "let g:miniBufExplMapWindowNavVim = 1   " control-[hjkl] to move among windows 
 "let g:miniBufExplMapWindowNavArrows = 1   " control-<arrows> to move among windows 
-map <Leader>bb :MiniBufExplorer<cr>  " Open and/or goto Explorer
-map <Leader>bc :CMiniBufExplorer<cr> " Close the Explorer if it's open
-map <Leader>bu :UMiniBufExplorer<cr> " Update Explorer without navigating
-map <Leader>bt :TMiniBufExplorer<cr> " Toggle the Explorer window open and closed.
+map <Leader>bb <Plug>MiniBufExplorer<cr>  " Open and/or goto Explorer
+map <Leader>bc <Plug>CMiniBufExplorer<cr> " Close the Explorer if it's open
+map <Leader>bu <Plug>UMiniBufExplorer<cr> " Update Explorer without navigating
+map <Leader>bt <Plug>TMiniBufExplorer<cr> " Toggle the Explorer window open and closed.
 
 "Map NERDTree commands
 noremap <silent> <Leader>nt :NERDTreeToggle<CR>
-noremap <silent> <Leader>ntf :NERDTreeFind<CR>
+noremap <silent> <Leader>nf :NERDTreeFind<CR>
 
 " Trying out tagbar instead of taglist
 map <silent> <Leader>o :TagbarToggle<CR>
@@ -280,6 +280,15 @@ let g:LookupFile_DisableDefaultMap=1
 nmap <silent> <Leader>f <Plug>LookupFile
 " From below, <F12> regenerates .filenametags
 let g:LookupFile_TagExpr = string($projectHome.'/.filenametags')
+
+" Command-T
+"nnoremap <silent> <Leader>f :CommandT<CR>
+"nnoremap <silent> <Leader>b :CommandTBuffer<CR>
+
+"if has("gui_macvim")
+"  macmenu &File.New\ Tab key=<nop>
+"  map <D-t> :CommandT<CR>
+"endif
 
 " CheckSyntax
 " F5 mapping conflicts with ours, remap it
@@ -422,6 +431,7 @@ if has("autocmd")
   " use correct filetypes for ActionScript/flex
   autocmd BufNewFile,BufRead *.mxml set filetype=mxml
   autocmd BufNewFile,BufRead *.as set filetype=actionscript
+  au BufRead,BufNewFile *.json set filetype=json foldmethod=syntax
 
   "PYTHON
   " Check syntax and run python script.
