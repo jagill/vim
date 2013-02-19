@@ -5,7 +5,9 @@
     - http://www.vim.org/scripts/script.php?script_id=159
   description: 'Elegant buffer explorer - takes very little screen space'
   repo_type: git
-  repo: git://github.com/vim-scripts/minibufexpl.vim.git
+  #repo: git://github.com/vim-scripts/minibufexpl.vim.git
+  #Use the maintained branch
+  repo: git://github.com/fholgado/minibufexpl.vim.git
   plugin_type: plugin
   #vim_org_id: 3640
   file_type: vim
@@ -259,6 +261,13 @@
   plugin_type: plugin
   file_type: vim
 
+- name: vim-less
+  repo_type: git
+  repo: git://github.com/groenewege/vim-less.git
+  description: 'Syntax highlighting for .less stylesheets.'
+  plugin_type: plugin
+  file_type: vim
+
 #- name: checksyntax
   #urls:
     #- http://www.vim.org/scripts/script.php?script_id=1431
@@ -337,11 +346,11 @@
   description: 'CoffeeScript support for vim'
   plugin_type: plugin
 
-- name: jade
-  description: Vim Jade template engine syntax highlighting and indention
-  repo_type: git
-  repo: git://github.com/digitaltoad/vim-jade.git
-  plugin_type: plugin
+#- name: jade
+  #description: Vim Jade template engine syntax highlighting and indention
+  #repo_type: git
+  #repo: git://github.com/digitaltoad/vim-jade.git
+  #plugin_type: plugin
 
 - name: json
   description: A syntax highlighting file for JSON
@@ -358,6 +367,40 @@
   plugin_type: plugin
   file_type: vim
 
+- name: nodejs-complete
+  description: Nodejs 'omnifunc' function of vim
+  repo: git://github.com/myhere/vim-nodejs-complete.git
+  repo_type: git
+  plugin_type: plugin
+  file_type: vim
+
+- name: jscomplete
+  description: node.js dict for vim
+  repo: git://github.com/teramako/jscomplete-vim.git
+  repo_type: git
+  plugin_type: plugin
+  file_type: vim
+
+- name: javascript-syntax
+  description: 'JavaScript bundle for vim, this bundle provides syntax and indent plugins.'
+  repo: git://github.com/pangloss/vim-javascript.git
+  repo_type: git
+  plugin_type: plugin
+  file_type: vim
+
+- name: match-tag
+  description: 'Highlight matching HTML tag.'
+  repo: git://github.com/gregsexton/MatchTag.git
+  repo_type: git
+  plugin_type: plugin
+  file_type: vim
+
+- name: indent-guides
+  description: A Vim plugin for visually displaying indent levels in code
+  repo: git://github.com/nathanaelkane/vim-indent-guides.git
+  repo_type: git
+  plugin_type: plugin
+  file_type: vim
 
 #- name: netrw
 #  urls:

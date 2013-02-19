@@ -24,6 +24,7 @@ filetype plugin indent on
 set hidden          " Allow buffers to be hidden without writing, and remember their marks.
 set autowrite       " Autosave when I use tags, switch buffers, etc
 set ruler		    " Show the cursor position all the time
+set number          " show line numbers
 set laststatus=2    " Show statusline even when there is only one buffer open
 set hlsearch        " highlight search results 
 set incsearch		" do incremental searching
@@ -37,7 +38,7 @@ set expandtab		" don't use tab characters
 set softtabstop=4	" make the tab key move 4 spaces
 set tabstop=4	    " tabs show as 4 spaces 
 set title           " Show title of file in terminal mode
-set shortmess=I     " Suppress many of the "Press RETURN to continue"
+set shortmess=filnxtToOI     " Suppress many of the "Press RETURN to continue"
 set visualbell      " Don't audibly beep
 set wildmenu        " Show all possible word completions
 " set wildmode=list:longest     " Only complete up to points of ambiguity
@@ -116,13 +117,25 @@ map <Leader>v :sp $HOME/.vimrc<CR>
 " Reload .vimrc
 map <silent> <Leader>V :source $HOME/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
-"This fails horrible if you aren't on a word.
+"FIXME: This fails horrible if you aren't on a word.
 map <F1> :grep <cword><CR>
+
+map <F5> :w<CR>:exec ":!" . &makeprg . " %"<CR>
 
 " Copy current register into clipboard in mac
 if has("macunix")
   nmap <silent> <Leader>p :call system('echo ' . shellescape(getreg()) . ' \| pbcopy')<CR> 
 endif
+
+map <Leader>1 :b1<CR>
+map <Leader>2 :b2<CR>
+map <Leader>3 :b3<CR>
+map <Leader>4 :b4<CR>
+map <Leader>5 :b5<CR>
+map <Leader>6 :b6<CR>
+map <Leader>7 :b7<CR>
+map <Leader>8 :b8<CR>
+map <Leader>9 :b9<CR>
 
 "if has("macunix")
 "  let s:uname = substitute(system("uname"),"\n","","g")
@@ -211,6 +224,10 @@ if has("macunix") && has("gui_running")
   no   <D-Down>       <C-End>
   ino  <D-Down>       <C-End>
   "Deletions
+  map  <S-BS>         d<S-Left>
+  map! <S-BS>         <C-o>d<S-Left>
+  map  <S-Del>        d<S-Right>
+  map! <S-Del>        <C-o>d<S-Right>
   map  <C-BS>         d<C-Left>
   map! <C-BS>         <C-o>d<C-Left>
   map  <C-Del>        d<C-Right>
@@ -258,12 +275,15 @@ endif
 
 " minibuf
 let g:miniBufExplMapCTabSwitchBufs = 1 " control-tab and control-shift-tab to switch buffers 
+let g:miniBufExplSortBy = "mru" " Sort tabs by Most Recently Used
 "let g:miniBufExplMapWindowNavVim = 1   " control-[hjkl] to move among windows 
 "let g:miniBufExplMapWindowNavArrows = 1   " control-<arrows> to move among windows 
 map <Leader>bb <Plug>MiniBufExplorer<cr>  " Open and/or goto Explorer
 map <Leader>bc <Plug>CMiniBufExplorer<cr> " Close the Explorer if it's open
 map <Leader>bu <Plug>UMiniBufExplorer<cr> " Update Explorer without navigating
 map <Leader>bt <Plug>TMiniBufExplorer<cr> " Toggle the Explorer window open and closed.
+map <Leader>bm <Plug>MBEMarkCurrent<cr> " Mark current buffer
+
 
 "Map NERDTree commands
 noremap <silent> <Leader>nt :NERDTreeToggle<CR>
@@ -285,10 +305,6 @@ let g:LookupFile_DisableDefaultMap=1
 nmap <silent> <Leader>f <Plug>LookupFile
 " From below, <F12> regenerates .filenametags
 let g:LookupFile_TagExpr = string($projectHome.'/.filenametags')
-
-" Command-T
-"nnoremap <silent> <Leader>f :CommandT<CR>
-"nnoremap <silent> <Leader>b :CommandTBuffer<CR>
 
 "if has("gui_macvim")
 "  macmenu &File.New\ Tab key=<nop>
@@ -317,6 +333,9 @@ nmap <silent> <Leader>y :YRShow<CR>
 
 " NERDCommenter
 :map <silent> <Leader>ct :call NERDComment(1, 'toggle')<CR>
+let g:NERDCustomDelimiters = {
+    \ 'handlebars': { 'left': '<!--', 'right': '-->' }
+\ }
 
 " neocomplcache
 "" Use neocomplcache.
@@ -375,7 +394,7 @@ inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 
 "" Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType html,handlebars,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags 
@@ -412,6 +431,12 @@ let g:toggle_words_dict = {'python': [['if', 'elif', 'else']]}
  
 " Syntastic
 let g:syntastic_auto_loc_list = 1
+let g:syntastic_javascript_checker = 'jshint'
+
+" indent-guides
+"let g:indent_guides_auto_colors = 0
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -427,8 +452,8 @@ if has("autocmd")
 
   " use filetype=velocity on .vm files 
   autocmd BufRead,BufNewFile *.vm set filetype=velocity
-  " use filetype=htmldjango on .html files 
-  autocmd BufRead,BufNewFile *.html set filetype=htmldjango
+  " use filetype=handlebars on .html files 
+  autocmd BufRead,BufNewFile *.html set filetype=handlebars
   " use filetype=python on .psp files 
   autocmd BufRead,BufNewFile *.psp set filetype=python
   " use filetype=objcpp on .mm files 
@@ -436,13 +461,16 @@ if has("autocmd")
   " use correct filetypes for ActionScript/flex
   autocmd BufNewFile,BufRead *.mxml set filetype=mxml
   autocmd BufNewFile,BufRead *.as set filetype=actionscript
-  au BufRead,BufNewFile *.json set filetype=json foldmethod=syntax
+  autocmd BufRead,BufNewFile *.json set filetype=json foldmethod=syntax
 
   "PYTHON
   " Check syntax and run python script.
   autocmd FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
   autocmd FileType python set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
   
+  " Change indent widths for node-type filetypes
+  autocmd FileType ruby,html,css,less,javascript,coffee setlocal shiftwidth=2 softtabstop=2 
+
   "JAVA ANT
   " ant make for java
   autocmd FileType java setlocal makeprg=cd\ $projectHome&&ant
@@ -473,6 +501,8 @@ if has("autocmd")
     \   exe "normal! g`\"" |
     \ endif
 
+  "Add write autocmds here (although i had trouble adding an F12)
+  "autocmd BufWritePost * execute 
 
   augroup END 
 else 
@@ -483,7 +513,7 @@ endif " has("autocmd")
 " Project mappings 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " F12 regenerates ctags et al, S-F12 refreshes Eclipse projects
-execute 'map <F12> <esc>:!'.$HOME.'/.vim/bin/refresh_tags.sh &<CR>'
+execute 'map <F12> <esc>:silent !'.$HOME.'/.vim/bin/refresh_tags.sh &<CR>'
 execute 'map <S-F12> <esc>:ProjectRefresh<CR>'
 
 map <F9> :cprev<CR>

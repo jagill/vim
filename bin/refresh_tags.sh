@@ -3,6 +3,11 @@
 # Makes a file $projectHome/.filenametags that has the filenames for the project in $projectHome in a tag format
 # Should upgrade ctags to understand objC: git clone git://git.aeruder.net/ctags-objc.git
 
+if [ -z "$projectHome" ] ; then
+    echo Not in a project.
+    exit 0
+fi
+
 if [ `which exuberant-ctags` ] ; then
     CTAG_CMD=`which exuberant-ctags`
 else
@@ -18,7 +23,7 @@ CSCOPE_OUT_FILE=$projectHome/.cscope.out
 #Strangely, pushd and popd aren't working in ubuntu
 HERE=`pwd`
 cd $projectHome
-$CTAG_CMD -f $TAG_FILE --extra=+f --exclude="/build/" --langmap=java:+.vm --recurse
+$CTAG_CMD -f $TAG_FILE --langmap=java:+.vm --recurse
 sed -i .bak '\:build/:d' $TAG_FILE
 rm $TAG_FILE.bak
 echo "Made tag file"
