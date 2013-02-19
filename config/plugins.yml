@@ -402,6 +402,13 @@
   plugin_type: plugin
   file_type: vim
 
+- name: puppet
+  description: Puppet niceties for your Vim setup
+  repo: git://github.com/rodjek/vim-puppet.git
+  repo_type: git
+  plugin_type: plugin
+  file_type: vim
+
 #- name: netrw
 #  urls:
 #    - http://www.vim.org/scripts/script.php?script_id=1075
