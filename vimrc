@@ -5,8 +5,7 @@ set nocompatible	" don't try to be vi (This must be first)
 " $HOME/.vim/bin/update_plugins.py --help
 " to see how to install pathogen and other plugins.
 filetype off 
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+execute pathogen#infect()
 filetype plugin indent on
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
