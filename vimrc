@@ -403,6 +403,8 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 let g:alternateExtensions_h = "c,cpp,cxx,cc,m,mm"
 let g:alternateExtensions_m = "h"
 let g:alternateExtensions_mm = "h"
+let g:alternateExtensions_html = "coffee,js"
+let g:alternateExtensions_coffee = "html"
 
 " TaskList
 " override default
@@ -461,6 +463,7 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.mxml set filetype=mxml
   autocmd BufNewFile,BufRead *.as set filetype=actionscript
   autocmd BufRead,BufNewFile *.json set filetype=json foldmethod=syntax
+  autocmd BufRead,BufNewFile *.md set filetype=markdown
 
   "PYTHON
   " Check syntax and run python script.
