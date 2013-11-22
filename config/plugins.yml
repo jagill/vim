@@ -5,20 +5,10 @@
     - http://www.vim.org/scripts/script.php?script_id=159
   description: 'Elegant buffer explorer - takes very little screen space'
   repo_type: git
-  #repo: git://github.com/vim-scripts/minibufexpl.vim.git
   #Use the maintained branch
   repo: git://github.com/fholgado/minibufexpl.vim.git
   plugin_type: plugin
-  #vim_org_id: 3640
   file_type: vim
-
-#- name: bufexplorer
-#  urls:
-#    - http://www.vim.org/scripts/script.php?script_id=42
-#  description:
-#  plugin_type: plugin
-#  vim_org_id: 12363
-#  file_type: zip
 
 - name: IndexedSearch
   urls:
@@ -27,7 +17,6 @@
   repo_type: git
   repo: git://github.com/vim-scripts/IndexedSearch.git
   plugin_type: plugin
-  #vim_org_id: 7062 # 070503, 2007-05-03, 6.0
   file_type: vim
 
 - name: NERDCommenter
@@ -73,15 +62,23 @@
   description: "Replace text with content of register"
   plugin_type: plugin
 
-- name: neocomplcache
-  urls:
-    - http://www.vim.org/scripts/script.php?script_id=2620
+- name: unite
   repo_type: git
-  #This is bleeding edge, and often has bugs.
-  #repo: git://github.com/Shougo/neocomplcache.git
-  repo: git://github.com/vim-scripts/neocomplcache.git
+  repo: git://github.com/Shougo/unite.vim.git
+  description: 'Unite and create user interfaces'
+  plugin_type: plugin
+
+- name: neocomplete
+  repo_type: git
+  repo: git://github.com/Shougo/neocomplete.vim.git
   description: 'A new autocomplete solution'
   plugin_type: plugin
+
+#- name: vimfiler
+  #repo_type: git
+  #repo: git://github.com/Shougo/vimfiler.vim.git
+  #description: 'Powerful file explorer implemented by Vim script'
+  #plugin_type: plugin
 
 - name: vim-git
   urls:
@@ -103,32 +100,25 @@
   plugin_type: plugin
 
 # Used in lookupfile -- utilities for scripts
-- name: genutils
-  urls:
-    - http://www.vim.org/scripts/script.php?script_id=197
-  description: 'General utility functions'
-  repo_type: git
-  repo: git://github.com/vim-scripts/genutils.git
-  plugin_type: plugin
-  #vim_org_id: 11399
-  file_type: zip
+#- name: genutils
+  #urls:
+    #- http://www.vim.org/scripts/script.php?script_id=197
+  #description: 'General utility functions'
+  #repo_type: git
+  #repo: git://github.com/vim-scripts/genutils.git
+  #plugin_type: plugin
+  ##vim_org_id: 11399
+  #file_type: zip
 
-- name: lookupfile
-  urls:
-    - http://www.vim.org/scripts/script.php?script_id=1581
-  description: 'Lookup files using Vim7 ins-completion'
-  repo_type: git
-  repo: git://github.com/vim-scripts/lookupfile.git
-  plugin_type: plugin
-  #vim_org_id: 7671
-  file_type: zip
-
-# This keeps crashing with a SEGV.  I've tried recompiling it with the system ruby, but no luck.
-#- name: commandT
-#  description: "TextMate's Command-T file find for vim."
-#  repo_type: git
-#  repo: git://github.com/wincent/Command-T.git
-#  plugin_type: plugin
+#- name: lookupfile
+  #urls:
+    #- http://www.vim.org/scripts/script.php?script_id=1581
+  #description: 'Lookup files using Vim7 ins-completion'
+  #repo_type: git
+  #repo: git://github.com/vim-scripts/lookupfile.git
+  #plugin_type: plugin
+  ##vim_org_id: 7671
+  #file_type: zip
 
 - name: matchit
   urls:
@@ -168,14 +158,6 @@
   description: 'Display tags of the current file ordered by scope'
   plugin_type: plugin
 
-#- name: dbext.vim
-#  urls:
-#    - http://www.vim.org/scripts/script.php?script_id=356
-#  description: 'Provides database access to many dbms'
-#  plugin_type: plugin
-#  vim_org_id: 11341 # 11.01, 2009-09-08, 7.0
-#  file_type: zip
-
 #- name: jQuery
 #  urls:
 #    - http://www.vim.org/scripts/script.php?script_id=2416
@@ -186,16 +168,11 @@
 #  #vim_org_id: 12107 # 0.4, 2010-02-02, 6.0
 #  file_type: vim
 
-# Seemed to mess up some deleting/yanking when it controls the kill ring.  Filed bug.
-- name: yankring
-  urls:
-    - http://www.vim.org/scripts/script.php?script_id=1234
+- name: yankstack
+  description: A lightweight implementation of emacs's kill-ring for vim
   repo_type: git
-  repo: git://github.com/vim-scripts/YankRing.vim.git
-  description: 'Maintains a history of previous yanks, changes and deletes'
-  plugin_type: plugin
-  #vim_org_id: 13554
-  file_type: zip
+  repo: git://github.com/maxbrunsfeld/vim-yankstack.git
+  plugin_type: plugin 
 
 - name: osx_like
   urls:
@@ -247,13 +224,6 @@
   plugin_type: plugin
   file_type: vim
 
-#- name: mustache
-  #repo_type: git
-  #repo: https://github.com/juvenn/mustache.vim.git
-  #description: 'Syntax highlighting and indenting for mustache/handlebars.'
-  #plugin_type: plugin
-  #file_type: vim
-
 - name: handlebars
   repo_type: git
   repo: https://github.com/nono/vim-handlebars.git
@@ -265,6 +235,13 @@
   repo_type: git
   repo: git://github.com/groenewege/vim-less.git
   description: 'Syntax highlighting for .less stylesheets.'
+  plugin_type: plugin
+  file_type: vim
+
+- name: vim-markdown
+  repo_type: git
+  repo: git://github.com/tpope/vim-markdown.git
+  description: 'Vim Markdown runtime files.'
   plugin_type: plugin
   file_type: vim
 
@@ -287,15 +264,15 @@
   #vim_org_id: 7218
   file_type: vim
 
-- name: TaskList
-  urls:
-    - http://www.vim.org/scripts/script.php?script_id=2607
-  description: 'TaskList from TODO and FIXME statements in code.'
-  repo_type: git
-  repo: git://github.com/vim-scripts/TaskList.vim.git
-  plugin_type: plugin
-  #vim_org_id: 10388
-  file_type: vim
+#- name: TaskList
+  #urls:
+    #- http://www.vim.org/scripts/script.php?script_id=2607
+  #description: 'TaskList from TODO and FIXME statements in code.'
+  #repo_type: git
+  #repo: git://github.com/vim-scripts/TaskList.vim.git
+  #plugin_type: plugin
+  ##vim_org_id: 10388
+  #file_type: vim
 
 - name: camelcasemotion
   urls:
@@ -315,30 +292,22 @@
   plugin_type: plugin
   file_type: vim
 
-- name: rails
-  urls:
-    - http://www.vim.org/scripts/script.php?script_id=1567
-  description: 'Ruby on Rails: easy file navigation, enhanced syntax highlighting, and more'
-  repo_type: git
-  repo: git://github.com/tpope/vim-rails.git
-  plugin_type: plugin
-  file_type: vim
-
-# Defines leader commands that conflict with others, like mark.
-#- name: vim-ruby-debugger
-  #description: 'Vim plugin for debugging Ruby applications (using ruby-debug-ide gem)'
+#- name: rails
+  #urls:
+    #- http://www.vim.org/scripts/script.php?script_id=1567
+  #description: 'Ruby on Rails: easy file navigation, enhanced syntax highlighting, and more'
   #repo_type: git
-  #repo: git://github.com/astashov/vim-ruby-debugger.git
+  #repo: git://github.com/tpope/vim-rails.git
   #plugin_type: plugin
   #file_type: vim
 
-- name: Cocoa
-  urls:
-    - http://www.vim.org/scripts/script.php?script_id=2674
-  repo_type: git
-  repo: git://github.com/msanders/cocoa.vim.git
-  description: 'Plugin for Cocoa/Objective-C development'
-  plugin_type: plugin
+#- name: Cocoa
+  #urls:
+    #- http://www.vim.org/scripts/script.php?script_id=2674
+  #repo_type: git
+  #repo: git://github.com/msanders/cocoa.vim.git
+  #description: 'Plugin for Cocoa/Objective-C development'
+  #plugin_type: plugin
 
 - name: coffeeScript
   repo_type: git
@@ -346,11 +315,13 @@
   description: 'CoffeeScript support for vim'
   plugin_type: plugin
 
-#- name: jade
-  #description: Vim Jade template engine syntax highlighting and indention
+#Might be causing infinite loop?
+#- name: tern_for_vim
   #repo_type: git
-  #repo: git://github.com/digitaltoad/vim-jade.git
+  #repo: https://github.com/marijnh/tern_for_vim.git
+  #description: "Tern Javascript support for vim."
   #plugin_type: plugin
+  #extra: npm
 
 - name: json
   description: A syntax highlighting file for JSON
@@ -370,13 +341,6 @@
 - name: nodejs-complete
   description: Nodejs 'omnifunc' function of vim
   repo: git://github.com/myhere/vim-nodejs-complete.git
-  repo_type: git
-  plugin_type: plugin
-  file_type: vim
-
-- name: jscomplete
-  description: node.js dict for vim
-  repo: git://github.com/teramako/jscomplete-vim.git
   repo_type: git
   plugin_type: plugin
   file_type: vim
@@ -418,15 +382,6 @@
 #  plugin_type: plugin
 #  file_type: vim
 
-#- name: project
-#  urls:
-#    - http://www.vim.org/scripts/script.php?script_id=69
-#  description: 'Organize/Navigate projects of files (like IDE/buffer explorer)'
-#  repo_type: git
-#  repo: git://github.com/vim-scripts/project.tar.gz.git
-#  plugin_type: plugin
-#  file_type: vim
-
 #- name: clipbrd
   #urls:
     #- http://www.vim.org/scripts/script.php?script_id=1014
@@ -437,12 +392,13 @@
   ##vim_org_id: 7201
   #file_type: vim
 
-#- name: surround
-#  urls:
-#    - http://www.vim.org/scripts/script.php?script_id=1697
-#  repo: git://github.com/tpope/vim-surround.git
-#  description: 'Delete/change/add parentheses/quotes/XML-tags/much more with ease'
-#  plugin_type: plugin
+- name: surround
+  urls:
+    - http://www.vim.org/scripts/script.php?script_id=1697
+  repo: git://github.com/tpope/vim-surround.git
+  repo_type: git
+  description: 'Delete/change/add parentheses/quotes/XML-tags/much more with ease'
+  plugin_type: plugin
 
 #- name: ragtag
 #  urls:
@@ -458,28 +414,13 @@
 #  description: 'Provides auto-balancing and some expansions for parens, quotes, etc.'
 #  plugin_type: plugin
 
-#- name: Align
-  #urls:
-    #- http://www.vim.org/scripts/script.php?script_id=294
-  #repo: git://github.com/tsaleh/vim-align.git
-  #description: 'Align: Help folks to align text, eqns, declarations, tables, etc'
-  #comment: 'Look this examples: http://mysite.verizon.net/astronaut/vim/align.html#Examples'
-  #plugin_type: plugin
-
-#- name: templates
-  #urls:
-    #- http://www.vim.org/scripts/script.php?script_id=1172
-  #repo: git://github.com/hariton/simple-vim-templates.git
-  #description: 'Load filetype templates for new files'
-  #plugin_type: plugin
-
-
-#- names: snipMate
-  #urls:
-    #- http://www.vim.org/scripts/script.php?script_id=2540
-  #repo: git://github.com/msanders/snipmate.vim.git
-  #description: 'TextMate-style snippets for Vim'
-  #plugin_type: plugin
+#- name: snipMate
+#  urls:
+#    - http://www.vim.org/scripts/script.php?script_id=2540
+#  repo: git://github.com/msanders/snipmate.vim.git
+#  repo_type: git
+#  description: 'TextMate-style snippets for Vim'
+#  plugin_type: plugin
 
 #- name: FuzzyFinder
   #urls:
@@ -490,17 +431,4 @@
   #vim_org_id: 13961 # 3.5, 2009-12-03, 7.0
   #file_type: zip
 
-# Great idea, but was visually very distracting.
-#- name: showmarks
-  #urls:
-    #- http://www.vim.org/scripts/script.php?script_id=152
-  #description: 'Visually shows the location of marks'
-  #plugin_type: plugin
-  #vim_org_id: 3342  showmarks.vim 	2.2 	2004-08-16 	6.0
-  #file_type: vim
 
-
-# Scripts to try out:
-# python debugger: http://code.google.com/p/vimpdb/
-# source explorer: show definitions/etc http://www.vim.org/scripts/script.php?script_id=2179
-# altfile: switch between classes of files: https://github.com/vim-scripts/altfile

@@ -115,6 +115,11 @@ def install_plugin(plugin, plugin_dir, options={}):
                     if quiet_opt:
                         args.insert(2,quiet_opt)
                     subprocess.call(args, cwd=hack_dir, stdout=quiet_stdout)
+            if 'extra' in plugin and plugin['extra'] == 'npm':
+                args = ['npm', 'install']
+                if quiet_opt:
+                    args.insert(2,quiet_opt)
+                subprocess.call(args, cwd=target_dir, stdout=quiet_stdout)
 
 
         elif plugin['repo_type'] == 'hg':

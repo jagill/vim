@@ -4,6 +4,7 @@ set nocompatible	" don't try to be vi (This must be first)
 " If this is not running, you need to run 
 " $HOME/.vim/bin/update_plugins.py --help
 " to see how to install pathogen and other plugins.
+
 filetype off 
 execute pathogen#infect()
 filetype plugin indent on
@@ -12,7 +13,6 @@ filetype plugin indent on
 " Problems to overcome:
 " 1. Cut/paste working smoothly -- Done?
 " 2. Set up Cscope in a helpful way
-" 3. Fix neocomplcache issues
 " 4. Make "ge" equiv in camelcasemotion
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
@@ -32,10 +32,10 @@ set backspace=indent,eol,start  " allow backspacing over everything in insert mo
 set backup		    " keep a backup file
 set history=50		" keep 50 lines of command line history
 set showcmd		    " display incomplete commands
-set shiftwidth=4	" 4 space indents
+set shiftwidth=2	" 2 space indents
 set expandtab		" don't use tab characters
-set softtabstop=4	" make the tab key move 4 spaces
-set tabstop=4	    " tabs show as 4 spaces 
+set softtabstop=2	" make the tab key move 2 spaces
+set tabstop=4	    " tabs show as 4 spaces. Makes them more obvious.
 set title           " Show title of file in terminal mode
 set shortmess=filnxtToOI     " Suppress many of the "Press RETURN to continue"
 set visualbell      " Don't audibly beep
@@ -47,6 +47,7 @@ set wildignore=.svn,CVS,.git,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.
 let &tags=$projectHome . '/.tags'  " ctags file location
 set path=$projectHome/**  " set the project root as the base directory for find command
 set grepprg=ack\ --type-add\ jsp=.vm\ --ignore-dir=bin\ --ignore-dir=build " use ack not grep for searching
+set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:< "Show invisble characters with :set list
 
 set mouse=a 		" this enables vim mouse handling, and mucks up cut-paste from putty
 set mouseshape=i:beam
@@ -54,9 +55,6 @@ set mouseshape=i:beam
 set clipboard=unnamed   " Default for all unnamed yank/etc operations to store in system clipboard
 
 "set diffopt+=iwhite    "Ignore whitespace when diffing
-
-"Placing the line set complete=.,w,b,u,t,i in your ~/.vimrc file allows you to automatically complete any class, method, or field name by pressing [Ctrl]N while in insert mode. Successive presses of [Ctrl]N bring up the next matches. When you see the tag you want, just continue typing the rest of your source code. 
-set complete=.,w,b,u,t,i
 
 " Switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has("gui_running")
@@ -100,9 +98,6 @@ vnoremap X "_X
 
 map go o<esc>k
 map gO O<esc>j
-
-"Make Y work consistently with C and D
-noremap Y y$
 
 " Abbreviations
 " Alias %% to the directory of the current file.
@@ -273,14 +268,13 @@ if has("cscope")
 endif
 
 " minibuf
-let g:miniBufExplMapCTabSwitchBufs = 1 " control-tab and control-shift-tab to switch buffers 
-let g:miniBufExplSortBy = "mru" " Sort tabs by Most Recently Used
-"let g:miniBufExplMapWindowNavVim = 1   " control-[hjkl] to move among windows 
-"let g:miniBufExplMapWindowNavArrows = 1   " control-<arrows> to move among windows 
-map <Leader>bb <Plug>MiniBufExplorer<cr>  " Open and/or goto Explorer
-map <Leader>bc <Plug>CMiniBufExplorer<cr> " Close the Explorer if it's open
-map <Leader>bu <Plug>UMiniBufExplorer<cr> " Update Explorer without navigating
-map <Leader>bt <Plug>TMiniBufExplorer<cr> " Toggle the Explorer window open and closed.
+let g:miniBufExplSortBy = "mru" " Sort buffers by Most Recently Used
+let g:miniBufExplCycleArround = 1 " Cycle through buffers
+map <C-TAB> :MBEbb<cr> " Backward in MRU order
+map <S-C-TAB> :MBEbf<cr> " Forward in MRU order
+map <Leader>be <Plug>MBEOpen<cr>  " Open and/or goto Explorer
+map <Leader>bc <Plug>MBEClose<cr> " Close the Explorer if it's open
+map <Leader>bt <Plug>MBEToggle<cr> " Toggle the Explorer window open and closed.
 map <Leader>bm <Plug>MBEMarkCurrent<cr> " Mark current buffer
 
 
@@ -314,89 +308,11 @@ let g:LookupFile_TagExpr = string($projectHome.'/.filenametags')
 " F5 mapping conflicts with ours, remap it
 noremap <Leader>S :CheckSyntax<CR>
 
-"YankRing
-"Make the history file unobtrusive
-let g:yankring_history_file = '.yankring_history'
-"Don't put a single char in the registers
-let g:yankring_min_element_length=2
-" YankRing keeps the last nine yanks/etc, not just the standard last 9 deletes.
-" This is currently bugged -- mailed author, who will fix it someday.
-let g:yankring_manage_numbered_reg = 1
-" Map Y to be consistent with C and D.  YankRing requires this to a be a
-" little more complicated.
-function! YRRunAfterMaps()
-    nnoremap Y   :<C-U>YRYankCount 'y$'<CR>
-endfunction
-" Show the ring with \y (for yank)
-nmap <silent> <Leader>y :YRShow<CR>
-
 " NERDCommenter
 :map <silent> <Leader>ct :call NERDComment(1, 'toggle')<CR>
-let g:NERDCustomDelimiters = {
-    \ 'handlebars': { 'left': '<!--', 'right': '-->' }
-\ }
-
-" neocomplcache
-"" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-"" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-"" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
-"" Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
-"" Set minimum syntax keyword length.
-let g:neocomplcache_auto_completion_start_length = 3
-let g:neocomplcache_manual_completion_start_length = 3
-"let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-let g:neocomplcache_snippets_dir = $VIMDIR . './snippets'
-
-"" Define dictionary.
-"let g:neocomplcache_dictionary_filetype_lists = {
-"    \ 'default' : '',
-"    \ 'vimshell' : $HOME.'/.vimshell_hist',
-"   \ 'scheme' : $HOME.'/.gosh_completions'
-"    \ }
-
-" Define keyword.
-if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-endif
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-"Have neocomplcache complete on tab. Seems to be old; disabled for now.
-"smap  <TAB>  <RIGHT><Plug>(neocomplcache_snippets_jump)
-"inoremap <expr><C-e>     neocomplcache#complete_common_string() 
-"
-"" SuperTab like snippets behavior.
-imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-
-
-"" Plugin key-mappings.
-imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-"inoremap <expr><C-g>     neocomplcache#undo_completion()
-"inoremap <expr><C-l>     neocomplcache#complete_common_string()
-
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-"inoremap <expr><CR>  neocomplcache#smart_close_popup() . (&indentexpr != '' ? "\<C-f>\<CR>X\<BS>":"\<CR>")
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-"inoremap <expr><C-y>  neocomplcache#close_popup()
-"inoremap <expr><C-e>  neocomplcache#cancel_popup()
-
-
-"" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,handlebars,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags 
+"let g:NERDCustomDelimiters = {
+    "\ 'handlebars': { 'left': '<!--', 'right': '-->' }
+"\ }
 
 "alternate.txt
 "Set up alternates that handle objc/objcpp
@@ -432,14 +348,109 @@ let g:toggle_words_dict = {'python': [['if', 'elif', 'else']]}
  
 " Syntastic
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_javascript_checker = 'jshint'
+let g:syntastic_coffeescript_coffeelist_args = "-f $HOME/.coffee-config.json"
 
+" Yankstack
+call yankstack#setup()
+"Make Y work consistently with C and D
+"This is go after the setup, because it redefines it.
+nmap Y y$
+ 
 " indent-guides
 "let g:indent_guides_auto_colors = 0
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
 "autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Neocomplete
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+"Placing the line set complete=.,w,b,u,t,i in your ~/.vimrc file allows you to automatically complete any class, method, or field name by pressing [Ctrl]N while in insert mode. Successive presses of [Ctrl]N bring up the next matches. When you see the tag you want, just continue typing the rest of your source code. 
+set complete=.,w,b,u,t,i
+set completeopt+=longest
+
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#smart_close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+
+" For cursor moving in insert mode(Not recommended)
+"inoremap <expr><Left>  neocomplete#close_popup() . "\<Left>"
+"inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
+"inoremap <expr><Up>    neocomplete#close_popup() . "\<Up>"
+"inoremap <expr><Down>  neocomplete#close_popup() . "\<Down>"
+" Or set this.
+"let g:neocomplete#enable_cursor_hold_i = 1
+" Or set this.
+"let g:neocomplete#enable_insert_char_pre = 1
+
+" AutoComplPop like behavior.
+"let g:neocomplete#enable_auto_select = 1
+
+" Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplete#enable_auto_select = 1
+"let g:neocomplete#disable_auto_complete = 1
+"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+"let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autocommands
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -454,7 +465,7 @@ if has("autocmd")
   " use filetype=velocity on .vm files 
   autocmd BufRead,BufNewFile *.vm set filetype=velocity
   " use filetype=handlebars on .html files 
-  autocmd BufRead,BufNewFile *.html set filetype=handlebars
+  "autocmd BufRead,BufNewFile *.html set filetype=handlebars
   " use filetype=python on .psp files 
   autocmd BufRead,BufNewFile *.psp set filetype=python
   " use filetype=objcpp on .mm files 
@@ -465,13 +476,18 @@ if has("autocmd")
   autocmd BufRead,BufNewFile *.json set filetype=json foldmethod=syntax
   autocmd BufRead,BufNewFile *.md set filetype=markdown
 
+  "HANDLEBARS
+  " Add meteor's <template> to recognized html tags.
+  autocmd BufRead,BufNewFile *.html set syntax=handlebars
+  autocmd FileType html,handlebars syn keyword htmlTagName contained template
+
   "PYTHON
   " Check syntax and run python script.
   autocmd FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
   autocmd FileType python set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
   
-  " Change indent widths for node-type filetypes
-  autocmd FileType ruby,html,css,less,javascript,coffee setlocal shiftwidth=2 softtabstop=2 
+  " Change indent widths for old-style filetypes
+  autocmd FileType java,c,cpp setlocal shiftwidth=4 softtabstop=4 
 
   "JAVA ANT
   " ant make for java
@@ -486,6 +502,9 @@ if has("autocmd")
 
   " RUBY
   autocmd FileType ruby setlocal makeprg=ruby
+
+  " COFFEE
+  autocmd FileType coffee setlocal makeprg=coffee\ --output\ \/tmp
 
   " XCODE make file 
   "autocmd FileType c setlocal makeprg=cd\ $projectHome&&xcodebuild
@@ -516,16 +535,29 @@ endif " has("autocmd")
 """""""""""""""""""""""""""""""""""""""""""""""""""
 " F12 regenerates ctags et al, S-F12 refreshes Eclipse projects
 execute 'map <F12> <esc>:silent !'.$HOME.'/.vim/bin/refresh_tags.sh &<CR>'
-execute 'map <S-F12> <esc>:ProjectRefresh<CR>'
 
 map <F9> :cprev<CR>
 map <F10> :cnext<CR>
 
-"F6 uses Eclim's JavaCorrect.  F7 (+S) adds an
-" import or adds all imports and cleans.
-"execute 'map <F6> <esc>:JavaCorrect<CR>'
-"execute 'map <F7> <esc>:JavaImport<CR>'
-"execute 'map <S-F7> <esc>:JavaImportMissing<CR>:JavaImportClean<CR>:JavaImportSort<CR>'
-"execute 'map <F11> <esc>:wall!<CR>:!cleansource<CR>'
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Ctags support
+""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" CoffeeTags, requires coffeetags
+" https://github.com/lukaszkorecki/CoffeeTags
+if executable('coffeetags')
+  let g:tagbar_type_coffee = {
+        \ 'ctagsbin' : 'coffeetags',
+        \ 'ctagsargs' : '',
+        \ 'kinds' : [
+        \ 'f:functions',
+        \ 'o:object',
+        \ ],
+        \ 'sro' : ".",
+        \ 'kind2scope' : {
+        \ 'f' : 'object',
+        \ 'o' : 'object',
+        \ }
+        \ }
+endif
