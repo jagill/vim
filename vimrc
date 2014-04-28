@@ -349,6 +349,8 @@ let g:toggle_words_dict = {'python': [['if', 'elif', 'else']]}
 " Syntastic
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_coffeescript_coffeelist_args = "-f $HOME/.coffee-config.json"
+let g:syntastic_html_checkers=['tidy']
+let g:syntastic_html_tidy_blocklevel_tags=['template']
 
 " Yankstack
 call yankstack#setup()
@@ -470,16 +472,8 @@ if has("autocmd")
   autocmd BufRead,BufNewFile *.psp set filetype=python
   " use filetype=objcpp on .mm files 
   autocmd BufRead,BufNewFile *.mm set filetype=objcpp
-  " use correct filetypes for ActionScript/flex
-  autocmd BufNewFile,BufRead *.mxml set filetype=mxml
-  autocmd BufNewFile,BufRead *.as set filetype=actionscript
   autocmd BufRead,BufNewFile *.json set filetype=json foldmethod=syntax
   autocmd BufRead,BufNewFile *.md set filetype=markdown
-
-  "HANDLEBARS
-  " Add meteor's <template> to recognized html tags.
-  autocmd BufRead,BufNewFile *.html set syntax=handlebars
-  autocmd FileType html,handlebars syn keyword htmlTagName contained template
 
   "PYTHON
   " Check syntax and run python script.

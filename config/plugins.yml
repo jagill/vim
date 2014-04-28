@@ -224,6 +224,13 @@
   plugin_type: plugin
   file_type: vim
 
+- name: spacebars
+  repo_type: git
+  repo: https://github.com/Slava/vim-spacebars.git
+  description: 'Syntax highlighting and indenting for spacebars.'
+  plugin_type: plugin
+  file_type: vim
+
 - name: handlebars
   repo_type: git
   repo: https://github.com/nono/vim-handlebars.git
@@ -315,6 +322,12 @@
   description: 'CoffeeScript support for vim'
   plugin_type: plugin
 
+- name: html5
+  repo_type: git
+  repo: git@github.com:othree/html5.vim.git
+  description: 'HTML5 highlighting'
+  plugin_type: plugin
+
 #Might be causing infinite loop?
 #- name: tern_for_vim
   #repo_type: git
@@ -393,19 +406,20 @@
   #file_type: vim
 
 - name: surround
+  description: 'Delete/change/add parentheses/quotes/XML-tags/much more with ease'
   urls:
     - http://www.vim.org/scripts/script.php?script_id=1697
   repo: git://github.com/tpope/vim-surround.git
   repo_type: git
-  description: 'Delete/change/add parentheses/quotes/XML-tags/much more with ease'
   plugin_type: plugin
 
-#- name: ragtag
-#  urls:
-#    - http://www.vim.org/scripts/script.php?script_id=1896
-#  repo: git://github.com/tpope/vim-ragtag.git
-#  description: 'A set of mappings for HTML, XML, PHP, ASP, eRuby, JSP, and more (formerly allml)'
-#  plugin_type: plugin
+- name: ragtag
+  description: 'A set of mappings for HTML, XML, PHP, ASP, eRuby, JSP, and more (formerly allml)'
+  urls:
+    - http://www.vim.org/scripts/script.php?script_id=1896
+  repo: git://github.com/tpope/vim-ragtag.git
+  repo_type: git
+  plugin_type: plugin
 
 #- name: delimitMate
 #  urls:
