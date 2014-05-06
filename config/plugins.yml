@@ -168,6 +168,18 @@
 #  #vim_org_id: 12107 # 0.4, 2010-02-02, 6.0
 #  file_type: vim
 
+- name: vim-jinja
+  description: Jinja highlighting
+  repo_type: git
+  repo: git://github.com/mitsuhiko/vim-jinja.git 
+  plugin_type: plugin
+  
+- name: nginx-syntax
+  description: Syntax highlighting for vim
+  repo_type: git
+  repo: https://github.com/evanmiller/nginx-vim-syntax.git
+  plugin_type: plugin
+
 - name: yankstack
   description: A lightweight implementation of emacs's kill-ring for vim
   repo_type: git

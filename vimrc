@@ -32,9 +32,9 @@ set backspace=indent,eol,start  " allow backspacing over everything in insert mo
 set backup		    " keep a backup file
 set history=50		" keep 50 lines of command line history
 set showcmd		    " display incomplete commands
-set shiftwidth=2	" 2 space indents
+set shiftwidth=4	" 4 space indents
 set expandtab		" don't use tab characters
-set softtabstop=2	" make the tab key move 2 spaces
+set softtabstop=4	" make the tab key move 4 spaces
 set tabstop=4	    " tabs show as 4 spaces. Makes them more obvious.
 set title           " Show title of file in terminal mode
 set shortmess=filnxtToOI     " Suppress many of the "Press RETURN to continue"
@@ -474,6 +474,7 @@ if has("autocmd")
   autocmd BufRead,BufNewFile *.mm set filetype=objcpp
   autocmd BufRead,BufNewFile *.json set filetype=json foldmethod=syntax
   autocmd BufRead,BufNewFile *.md set filetype=markdown
+  au BufRead,BufNewFile *.twig set filetype=htmljinja
 
   "PYTHON
   " Check syntax and run python script.
