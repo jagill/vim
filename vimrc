@@ -57,7 +57,10 @@ set clipboard=unnamed   " Default for all unnamed yank/etc operations to store i
 "set diffopt+=iwhite    "Ignore whitespace when diffing
 
 " Switch syntax highlighting on, when the terminal has colors
-if &t_Co > 2 || has("gui_running")
+if &t_Co > 2
+  syntax on
+  colorscheme desert
+elseif has("gui_running")
   syntax on
   colorscheme osx_like
 endif
