@@ -32,10 +32,10 @@ set backspace=indent,eol,start  " allow backspacing over everything in insert mo
 set backup		    " keep a backup file
 set history=50		" keep 50 lines of command line history
 set showcmd		    " display incomplete commands
-set shiftwidth=4	" 4 space indents
+set shiftwidth=2	" 2 space indents
 set expandtab		" don't use tab characters
-set softtabstop=4	" make the tab key move 4 spaces
-set tabstop=4	    " tabs show as 4 spaces. Makes them more obvious.
+set softtabstop=2	" make the tab key move 2 spaces
+set tabstop=2	    " tabs show as 2 spaces. Makes them more obvious.
 set title           " Show title of file in terminal mode
 set shortmess=filnxtToOI     " Suppress many of the "Press RETURN to continue"
 set visualbell      " Don't audibly beep
@@ -519,6 +519,8 @@ if has("autocmd")
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
+
+  au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
 
   "Add write autocmds here (although i had trouble adding an F12)
   "autocmd BufWritePost * execute 

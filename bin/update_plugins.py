@@ -88,7 +88,7 @@ def install_plugin(plugin, plugin_dir, options={}):
             missing_repo = subprocess.call(['ls', os.path.join(target_dir, '.git')], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             if missing_repo:
                 logging.info("Fetching %s from git repo %s" % (plugin['name'], plugin['repo']))
-                args = ['git', 'clone', '--no-progress', '--depth', '0', plugin['repo'], target_dir]
+                args = ['git', 'clone', '--no-progress', '--depth', '1', plugin['repo'], target_dir]
                 if quiet_opt:
                     args.insert(2,quiet_opt)
                 subprocess.call(args, stdout=quiet_stdout)

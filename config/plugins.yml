@@ -257,10 +257,10 @@
   plugin_type: plugin
   file_type: vim
 
-- name: vim-markdown
+- name: vim-flavored-markdown
   repo_type: git
-  repo: git://github.com/tpope/vim-markdown.git
-  description: 'Vim Markdown runtime files.'
+  repo: git://github.com/jtratner/vim-flavored-markdown.git
+  description: 'Vim GitHub flavored Markdown runtime files.'
   plugin_type: plugin
   file_type: vim
 
@@ -341,12 +341,12 @@
   plugin_type: plugin
 
 #Might be causing infinite loop?
-#- name: tern_for_vim
-  #repo_type: git
-  #repo: https://github.com/marijnh/tern_for_vim.git
-  #description: "Tern Javascript support for vim."
-  #plugin_type: plugin
-  #extra: npm
+- name: tern_for_vim
+  repo_type: git
+  repo: https://github.com/marijnh/tern_for_vim.git
+  description: "Tern Javascript support for vim."
+  plugin_type: plugin
+  extra: npm
 
 - name: json
   description: A syntax highlighting file for JSON
@@ -430,6 +430,12 @@
   urls:
     - http://www.vim.org/scripts/script.php?script_id=1896
   repo: git://github.com/tpope/vim-ragtag.git
+  repo_type: git
+  plugin_type: plugin
+
+- name: vim-go
+  description: 'Go development plugin for Vim'
+  repo: git@github.com:fatih/vim-go.git
   repo_type: git
   plugin_type: plugin
 
